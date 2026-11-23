@@ -378,6 +378,10 @@ footer b { font-family: var(--marker); color: var(--gold); font-weight: 400; fon
   Fried rice not guaranteed to survive the night.
 </footer>
 
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="./firebase-config.js"></script>
 <script>
 (function () {
   var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -588,44 +592,56 @@ footer b { font-family: var(--marker); color: var(--gold); font-weight: 400; fon
   renderEvent();
   renderSquad();
 
-  // boot the shared store
+  // boot the shared Firebase store
   function boot() {
-    if (!(window.claude && window.claude.use)) { unavailable(); return; }
-    Promise.all([window.claude.use('db'), window.claude.use('user')]).then(function (r) {
-      var db = r[0], user = r[1];
-      if (!db) { unavailable(); return; }
-      state.db = db;
-      var ids = user ? Promise.all([user.id(), user.can('data.write'), user.canEdit()]) : Promise.resolve([null, null, false]);
-      return ids.then(function (v) {
-        var uid = v[0], cw = v[1];
-        state.canEdit = !!v[2];
-        if (!uid) {
-          try { uid = localStorage.getItem('owen_rsvp_id'); if (!uid) { uid = 'g' + Math.random().toString(36).slice(2, 12); localStorage.setItem('owen_rsvp_id', uid); } } catch (e) { uid = 'g' + Math.random().toString(36).slice(2, 12); }
-        }
+    if (!window.firebase || !window.FIREBASE_CONFIG || !window.FIREBASE_CONFIG.apiKey) {
+      unavailable('Firebase is not configured yet. Ask the host to finish the setup.');
+      return;
+    }
+    try {
+      if (!firebase.apps.length) firebase.initializeApp(window.FIREBASE_CONFIG);
+      state.db = firebase.firestore();
+      firebase.auth().signInAnonymously().then(function (credential) {
+        var uid = credential.user.uid;
         state.docId = uid;
-        state.canWrite = cw !== false;
-        if (!state.canWrite) { setNote('You can see the list, but this link is view-only. Ask the host for Contributor access so you can RSVP.'); setFormEnabled(false); }
-        $('#host').hidden = !state.canEdit;
-
-        var timer = setTimeout(function () { if (!state.loaded) $('#squad-status').textContent = 'The guest list is slow to load. It may be out of date.'; }, 10000);
-        db.collection('rsvps').onSnapshot(function (snap) {
-          clearTimeout(timer);
-          state.loaded = true;
-          state.rsvps = snap.docs.map(function (d) { var x = d.data() || {}; x.id = d.id; return x; });
-          syncMine(); renderSquad();
-        }, function () { clearTimeout(timer); $('#squad-status').textContent = 'The guest list is not reachable right now.'; });
-
-        db.doc('event/main').onSnapshot(function (s) {
-          state.event = s.exists ? (s.data() || {}) : {};
-          if (state.canEdit && !$('#ev-date').value) { $('#ev-date').value = state.event.date || ''; $('#ev-time').value = state.event.time || ''; $('#ev-note').value = state.event.note || ''; }
-          renderEvent();
-        }, function () {});
+        state.canWrite = true;
+        return state.db.doc('admins/' + uid).get().then(function (adminDoc) {
+          state.canEdit = adminDoc.exists;
+          $('#host').hidden = !state.canEdit;
+          var timer = setTimeout(function () {
+            if (!state.loaded) $('#squad-status').textContent = 'The guest list is slow to load. It may be out of date.';
+          }, 10000);
+          state.db.collection('rsvps').onSnapshot(function (snap) {
+            clearTimeout(timer);
+            state.loaded = true;
+            state.rsvps = snap.docs.map(function (d) { var x = d.data() || {}; x.id = d.id; return x; });
+            syncMine(); renderSquad();
+          }, function () {
+            clearTimeout(timer);
+            $('#squad-status').textContent = 'The guest list could not be loaded. Check the Firebase security rules.';
+          });
+          state.db.doc('event/main').onSnapshot(function (s) {
+            state.event = s.exists ? (s.data() || {}) : {};
+            if (state.canEdit && !$('#ev-date').value) {
+              $('#ev-date').value = state.event.date || '';
+              $('#ev-time').value = state.event.time || '';
+              $('#ev-note').value = state.event.note || '';
+            }
+            renderEvent();
+          }, function () {});
+        });
+      }).catch(function (err) {
+        console.error('Firebase startup failed:', err);
+        unavailable('Could not connect to the RSVP database. The host needs to check Firebase setup.');
       });
-    }).catch(unavailable);
+    } catch (err) {
+      console.error('Firebase initialization failed:', err);
+      unavailable('Firebase setup is incomplete. Ask the host to check the setup guide.');
+    }
   }
-  function unavailable() {
-    $('#squad-status').textContent = 'Sign in to claude.ai to see the guest list.';
-    setNote('RSVPs need you to be signed in to claude.ai and have Contributor access from the host.');
+  function unavailable(message) {
+    $('#squad-status').textContent = 'The shared guest list is not connected yet.';
+    setNote(message || 'The RSVP database is not available right now.');
     setFormEnabled(false);
   }
   boot();
