@@ -1,0 +1,635 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Owen's Return</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;800&family=Permanent+Marker&display=swap">
+<style>
+/* Layout: a movie-trailer poster up top (caution tape, giant title, cartoon), then ticket-stub event cards, the RSVP form beside live totals, and the squad list. Committed single dark look. */
+:root {
+  --bg: #0c0809;
+  --surface: #171011;
+  --surface2: #231719;
+  --line: #3f2c2f;
+  --text: #fff3dd;
+  --mute: #d2bfac;
+  --fire: #ff5a1f;
+  --gold: #ffc83d;
+  --red: #e0243a;
+  --ok: #3ddc84;
+  --display: 'Anton', Impact, 'Arial Narrow', sans-serif;
+  --body: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --marker: 'Permanent Marker', 'Comic Sans MS', cursive;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+.wrap {
+  width: 100%;
+  max-width: 1060px;
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; margin: 0; text-wrap: balance; }
+a { color: var(--gold); }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+/* caution tape */
+.tape { background: var(--gold); color: #120a05; overflow: hidden; border-block: 4px solid #120a05; transform: rotate(-1.2deg); margin-block: 14px 0; box-shadow: 0 6px 0 rgba(224,36,58,.6); }
+.tape-track { display: flex; width: max-content; animation: slide 26s linear infinite; }
+.tape-track span { font-family: var(--display); font-size: 1.35rem; letter-spacing: .12em; text-transform: uppercase; padding: 6px 0; white-space: nowrap; }
+@keyframes slide { to { transform: translateX(-50%); } }
+
+/* hero */
+.hero { position: relative; padding-block: 36px 24px; text-align: center; isolation: isolate; }
+.rays { position: absolute; inset: -20% -10% auto; height: 120%; z-index: -1; background: repeating-conic-gradient(from 0deg at 50% 40%, rgba(255,90,31,.20) 0 8deg, transparent 8deg 16deg); animation: spin 90s linear infinite; mask-image: radial-gradient(circle at 50% 40%, #000 20%, transparent 70%); -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 20%, transparent 70%); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.presents { font-weight: 800; letter-spacing: .28em; font-size: .78rem; text-transform: uppercase; color: var(--mute); margin: 0 0 6px; }
+.title { display: grid; justify-items: center; line-height: .86; transform: rotate(-3deg) skewX(-4deg); margin-block: 8px 0; }
+.t1, .t2 { font-size: clamp(3.6rem, 17vw, 9.5rem); display: block; }
+.t1 { color: var(--gold); text-shadow: 0 6px 0 var(--red), 0 12px 0 #120a05; }
+.t2 { color: var(--fire); -webkit-text-stroke: 3px #120a05; paint-order: stroke fill; text-shadow: 0 6px 0 var(--gold), 0 12px 0 #120a05; }
+.sub { display: flex; align-items: center; justify-content: center; gap: 14px; font-family: var(--display); font-size: clamp(1.4rem, 5.5vw, 2.4rem); letter-spacing: .5em; margin: 22px 0 0; padding-left: .5em; }
+.sub::before, .sub::after { content: ""; flex: 0 1 90px; height: 3px; background: var(--gold); }
+.credits { font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; color: var(--mute); margin: 6px 0 0; }
+.art { display: block; width: min(100%, 520px); height: auto; margin: 6px auto 0; }
+.trailer { font-family: var(--marker); font-size: clamp(1.15rem, 3.6vw, 1.6rem); color: var(--gold); min-height: 2.6em; margin: 4px auto 0; max-width: 28ch; transition: opacity .35s; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 16px 22px; justify-content: center; align-items: center; margin-top: 10px; }
+.btn { display: inline-block; font-family: var(--display); font-size: 1.5rem; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; color: #120a05; background: var(--gold); border: 4px solid #120a05; border-radius: 6px; padding: 12px 28px; box-shadow: 6px 6px 0 var(--red); cursor: pointer; transition: transform .12s, box-shadow .12s; }
+.btn:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--red); }
+.btn:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0 var(--red); }
+.btn[disabled] { opacity: .5; cursor: not-allowed; transform: none; }
+.btn.ghost { background: transparent; color: var(--text); border-color: var(--line); box-shadow: none; font-size: 1rem; padding: 8px 16px; font-family: var(--body); font-weight: 800; }
+.rated { display: inline-block; border: 3px solid var(--red); color: var(--red); font-family: var(--display); text-transform: uppercase; letter-spacing: .08em; padding: 6px 12px; transform: rotate(5deg); font-size: .95rem; line-height: 1.2; max-width: 22ch; text-align: left; }
+
+/* facts */
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-block: 28px 8px; }
+.fact { border: 2px dashed var(--line); border-radius: 8px; padding: 12px 16px; background: var(--surface); }
+.fact b { display: block; font-family: var(--display); font-weight: 400; font-size: 2rem; color: var(--gold); line-height: 1.1; }
+.fact span { font-size: .85rem; color: var(--mute); }
+
+/* sections */
+section { padding-block: 34px 6px; }
+.kicker { font-family: var(--marker); color: var(--fire); font-size: 1.2rem; margin: 0 0 4px; }
+.h2 { font-size: clamp(2rem, 7vw, 3.2rem); line-height: 1; margin-bottom: 18px; }
+
+/* ticket cards */
+.tickets { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+.ticket { background: var(--surface2); border: 2px solid var(--line); border-radius: 10px; padding: 18px 20px; position: relative; min-width: 0; }
+.ticket::before, .ticket::after { content: ""; position: absolute; top: 50%; width: 22px; height: 22px; border-radius: 50%; background: var(--bg); border: 2px solid var(--line); transform: translateY(-50%); }
+.ticket::before { left: -13px; } .ticket::after { right: -13px; }
+.ticket small { display: block; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: var(--fire); font-size: .72rem; }
+.ticket strong { display: block; font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 1.7rem; line-height: 1.1; margin-block: 4px; overflow-wrap: anywhere; }
+.ticket p { margin: 0; color: var(--mute); font-size: .92rem; }
+.count { font-variant-numeric: tabular-nums; font-family: var(--display); color: var(--gold); font-size: 1.4rem; letter-spacing: .06em; margin-top: 6px; }
+
+/* host panel */
+.host { margin-top: 16px; border: 2px dashed var(--gold); border-radius: 8px; padding: 12px 16px; background: var(--surface); }
+.host summary { cursor: pointer; font-weight: 800; }
+.host .row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; align-items: end; }
+
+/* rsvp */
+.rsvp-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 800px) { .rsvp-grid { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--surface); border: 2px solid var(--line); border-radius: 12px; padding: 22px; min-width: 0; }
+.field { display: grid; gap: 6px; margin-bottom: 18px; min-width: 0; }
+.field > label, .field > legend, legend.lg { font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; color: var(--mute); padding: 0; }
+fieldset { border: 0; padding: 0; margin: 0 0 18px; min-width: 0; }
+input[type=text], input[type=date], input[type=time], select, textarea { width: 100%; font: inherit; color: var(--text); background: var(--surface2); border: 2px solid var(--line); border-radius: 8px; padding: 11px 13px; min-width: 0; }
+textarea { min-height: 84px; resize: vertical; }
+.choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 6px; }
+.choice { position: relative; }
+.choice input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.choice span { display: block; text-align: center; font-family: var(--display); text-transform: uppercase; letter-spacing: .05em; font-size: 1.15rem; line-height: 1.15; padding: 14px 8px; border: 3px solid var(--line); border-radius: 8px; background: var(--surface2); transition: transform .1s; min-height: 3.6em; display: grid; place-items: center; }
+.choice input:checked + span { transform: translateY(-2px); }
+.choice input[value=in]:checked + span { background: var(--ok); color: #06210f; border-color: #06210f; }
+.choice input[value=maybe]:checked + span { background: var(--gold); color: #120a05; border-color: #120a05; }
+.choice input[value=no]:checked + span { background: var(--red); color: #fff; border-color: #120a05; }
+.choice input:focus-visible + span { outline: 3px solid var(--gold); outline-offset: 3px; }
+.meals .choice span { font-family: var(--body); font-weight: 800; font-size: .92rem; letter-spacing: 0; text-transform: none; padding: 10px 8px; min-height: 0; }
+.meals .choice input:checked + span { background: var(--fire); color: #1a0a03; border-color: #120a05; }
+.hint { font-size: .82rem; color: var(--mute); margin: 0; }
+.note { border-left: 4px solid var(--gold); background: var(--surface2); padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 0 0 16px; font-size: .92rem; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+/* totals */
+.totals { display: grid; gap: 10px; }
+.big { font-family: var(--display); font-size: clamp(4.5rem, 14vw, 6.5rem); line-height: .9; color: var(--gold); font-variant-numeric: tabular-nums; }
+.tot-row { display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid var(--line); padding-top: 8px; font-weight: 600; }
+.tot-row b { font-variant-numeric: tabular-nums; }
+
+/* squad */
+.squad { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.guest { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: start; background: var(--surface); border: 2px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+.badge { font-family: var(--display); letter-spacing: .06em; text-transform: uppercase; padding: 4px 12px; border-radius: 6px; border: 2px solid #120a05; min-width: 4.6em; text-align: center; }
+.badge.in { background: var(--ok); color: #06210f; } .badge.maybe { background: var(--gold); color: #120a05; } .badge.no { background: var(--red); color: #fff; }
+.who { min-width: 0; }
+.who strong { font-size: 1.1rem; overflow-wrap: anywhere; }
+.chip { display: inline-block; font-size: .78rem; font-weight: 800; background: var(--surface2); border: 1px solid var(--line); border-radius: 99px; padding: 1px 10px; margin-left: 6px; color: var(--mute); }
+.who q { display: block; font-family: var(--marker); color: var(--gold); font-size: 1.05rem; margin-top: 4px; quotes: none; overflow-wrap: anywhere; }
+.x { background: transparent; color: var(--mute); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; font: inherit; font-size: .8rem; padding: 4px 10px; }
+.x:hover { color: var(--red); border-color: var(--red); }
+.empty { border: 2px dashed var(--line); border-radius: 10px; padding: 28px 18px; text-align: center; font-family: var(--display); font-size: 1.4rem; text-transform: uppercase; color: var(--mute); }
+
+footer { padding-block: 40px 20px; text-align: center; color: var(--mute); font-size: .85rem; }
+footer b { font-family: var(--marker); color: var(--gold); font-weight: 400; font-size: 1.1rem; }
+
+.toast { position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 140%); background: var(--gold); color: #120a05; font-family: var(--display); text-transform: uppercase; letter-spacing: .04em; font-size: 1.2rem; border: 4px solid #120a05; border-radius: 8px; padding: 12px 20px; max-width: min(92vw, 520px); text-align: center; box-shadow: 6px 6px 0 var(--red); transition: transform .35s; z-index: 60; }
+.toast.show { transform: translate(-50%, 0); }
+#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tape-track, .rays { animation: none; }
+  .trailer, .btn, .choice span, .toast { transition: none; }
+}
+@media (max-width: 480px) {
+  .guest { grid-template-columns: auto minmax(0, 1fr); }
+  .guest .x { grid-column: 2; justify-self: start; }
+}
+</style>
+
+<canvas id="confetti" aria-hidden="true"></canvas>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="tape" aria-hidden="true"><div class="tape-track" id="tape"></div></div>
+
+<header class="hero">
+  <div class="rays" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="presents">Mosaka Hibachi &middot; Marlborough &middot; presents</p>
+    <h1 class="title" aria-label="Owen's Back"><span class="t1">Owen's</span><span class="t2">Back</span></h1>
+    <p class="sub">The Return</p>
+    <p class="credits">Starring Owen Brown &middot; Birthday Edition</p>
+
+    <svg class="art" viewBox="0 0 520 440" role="img" aria-label="Cartoon of Owen in a party hat bursting through a sign that has snapped into GROUN and DED, with a broken ball and chain, a hibachi grill on fire below and a shrimp flying through the air">
+      <defs>
+        <radialGradient id="glow" cx="50%" cy="45%" r="55%"><stop offset="0" stop-color="#ffc83d" stop-opacity=".5"/><stop offset="1" stop-color="#ffc83d" stop-opacity="0"/></radialGradient>
+      </defs>
+      <circle cx="260" cy="200" r="215" fill="url(#glow)"/>
+      <!-- confetti -->
+      <g>
+        <rect x="60" y="60" width="14" height="8" fill="#e0243a" transform="rotate(25 60 60)"/>
+        <rect x="120" y="150" width="12" height="7" fill="#3ddc84" transform="rotate(-30 120 150)"/>
+        <rect x="455" y="170" width="14" height="8" fill="#ffc83d" transform="rotate(40 455 170)"/>
+        <rect x="95" y="215" width="12" height="7" fill="#ff5a1f" transform="rotate(15 95 215)"/>
+        <rect x="395" y="25" width="12" height="7" fill="#fff3dd" transform="rotate(-20 395 25)"/>
+        <circle cx="165" cy="45" r="6" fill="#ffc83d"/><circle cx="470" cy="300" r="6" fill="#e0243a"/><circle cx="35" cy="150" r="5" fill="#3ddc84"/>
+      </g>
+      <!-- snapped GROUNDED sign -->
+      <g transform="rotate(-18 95 290)">
+        <rect x="20" y="266" width="150" height="50" rx="4" fill="#7a4a24" stroke="#2a160a" stroke-width="4"/>
+        <path d="M170 266 l-14 14 l12 8 l-16 12 l14 16" fill="none" stroke="#2a160a" stroke-width="3"/>
+        <text x="92" y="303" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="32" fill="#ffe9c4" letter-spacing="2">GROUN</text>
+      </g>
+      <g transform="rotate(24 420 330)">
+        <rect x="360" y="306" width="118" height="50" rx="4" fill="#7a4a24" stroke="#2a160a" stroke-width="4"/>
+        <text x="419" y="343" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="32" fill="#ffe9c4" letter-spacing="2">DED</text>
+      </g>
+      <!-- legs -->
+      <path d="M240 292 L212 346" stroke="#26346b" stroke-width="26" stroke-linecap="round" fill="none"/>
+      <path d="M282 292 L312 338" stroke="#26346b" stroke-width="26" stroke-linecap="round" fill="none"/>
+      <ellipse cx="204" cy="356" rx="24" ry="13" fill="#fff3dd" stroke="#2a160a" stroke-width="4" transform="rotate(-18 204 356)"/>
+      <ellipse cx="324" cy="348" rx="24" ry="13" fill="#fff3dd" stroke="#2a160a" stroke-width="4" transform="rotate(16 324 348)"/>
+      <!-- broken chain and ball -->
+      <ellipse cx="188" cy="372" rx="9" ry="5" fill="none" stroke="#aeb0bb" stroke-width="3" transform="rotate(30 188 372)"/>
+      <ellipse cx="172" cy="382" rx="9" ry="5" fill="none" stroke="#aeb0bb" stroke-width="3" transform="rotate(50 172 382)"/>
+      <path d="M150 380 l8 -8 l-2 12 l9 -4" fill="none" stroke="#ffc83d" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="108" cy="392" r="24" fill="#3b3b46" stroke="#14141a" stroke-width="4"/>
+      <text x="108" y="400" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="22" fill="#fff3dd">G</text>
+      <!-- torso -->
+      <rect x="213" y="204" width="94" height="98" rx="24" fill="#ff5a1f" stroke="#2a160a" stroke-width="4"/>
+      <text x="260" y="266" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="30" fill="#fff" letter-spacing="2">FREE</text>
+      <!-- arms -->
+      <path d="M224 222 L168 128" stroke="#ffd2a1" stroke-width="22" stroke-linecap="round" fill="none"/>
+      <path d="M296 222 L352 126" stroke="#ffd2a1" stroke-width="22" stroke-linecap="round" fill="none"/>
+      <circle cx="166" cy="122" r="17" fill="#ffd2a1" stroke="#2a160a" stroke-width="4"/>
+      <circle cx="354" cy="120" r="17" fill="#ffd2a1" stroke="#2a160a" stroke-width="4"/>
+      <!-- head -->
+      <circle cx="260" cy="152" r="58" fill="#ffd2a1" stroke="#2a160a" stroke-width="4"/>
+      <path d="M203 140 Q206 92 260 88 Q316 92 318 140 Q300 116 260 118 Q222 116 203 140Z" fill="#3a2312" stroke="#2a160a" stroke-width="3"/>
+      <ellipse cx="238" cy="152" rx="13" ry="17" fill="#fff" stroke="#2a160a" stroke-width="3"/>
+      <ellipse cx="282" cy="152" rx="13" ry="17" fill="#fff" stroke="#2a160a" stroke-width="3"/>
+      <circle cx="241" cy="154" r="6.5" fill="#14141a"/><circle cx="285" cy="154" r="6.5" fill="#14141a"/>
+      <path d="M222 126 Q238 114 254 124" fill="none" stroke="#2a160a" stroke-width="5" stroke-linecap="round"/>
+      <path d="M266 124 Q282 114 298 126" fill="none" stroke="#2a160a" stroke-width="5" stroke-linecap="round"/>
+      <path d="M229 180 Q260 226 292 180 Z" fill="#5b0f1a" stroke="#2a160a" stroke-width="4" stroke-linejoin="round"/>
+      <ellipse cx="260" cy="199" rx="14" ry="7" fill="#ff7a88"/>
+      <circle cx="218" cy="178" r="9" fill="#ff8f8f" opacity=".6"/><circle cx="302" cy="178" r="9" fill="#ff8f8f" opacity=".6"/>
+      <!-- party hat -->
+      <g transform="rotate(14 262 96)">
+        <polygon points="226,104 298,104 262,24" fill="#ffc83d" stroke="#2a160a" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M240 82 L284 82 M233 96 L291 96" stroke="#e0243a" stroke-width="6"/>
+        <circle cx="262" cy="22" r="10" fill="#e0243a" stroke="#2a160a" stroke-width="3"/>
+      </g>
+      <!-- speech bubble -->
+      <path d="M333 98 L352 70 L372 88Z" fill="#fff"/>
+      <ellipse cx="418" cy="58" rx="96" ry="40" fill="#fff" stroke="#2a160a" stroke-width="4"/>
+      <path d="M336 76 L356 84 L350 62Z" fill="#fff"/>
+      <text x="418" y="68" text-anchor="middle" font-family="'Permanent Marker', 'Comic Sans MS', cursive" font-size="26" fill="#e0243a">I'M FREEEE!!</text>
+      <!-- grill and flames -->
+      <path d="M200 402 Q182 366 206 338 Q212 366 228 352 Q246 380 232 402Z" fill="#ff5a1f" stroke="#2a160a" stroke-width="3"/>
+      <path d="M250 402 Q238 372 262 346 Q268 372 284 360 Q300 384 288 402Z" fill="#ffc83d" stroke="#2a160a" stroke-width="3"/>
+      <path d="M296 402 Q284 372 306 350 Q312 372 328 358 Q344 384 332 402Z" fill="#ff5a1f" stroke="#2a160a" stroke-width="3"/>
+      <rect x="150" y="398" width="240" height="36" rx="8" fill="#1b1b21" stroke="#2a160a" stroke-width="4"/>
+      <text x="270" y="424" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="20" fill="#ffc83d" letter-spacing="3">HIBACHI</text>
+      <!-- flying shrimp -->
+      <path d="M392 392 Q430 300 440 250" fill="none" stroke="#fff3dd" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round"/>
+      <g transform="rotate(-20 445 230)">
+        <path d="M410 240 Q438 198 480 226 Q474 256 440 258 Q432 274 410 240Z" fill="#ff8b6b" stroke="#2a160a" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M424 226 Q432 246 424 252 M442 214 Q450 238 442 252 M460 214 Q466 232 460 248" fill="none" stroke="#e0583a" stroke-width="3"/>
+        <path d="M410 240 L396 224 L408 252Z" fill="#ff8b6b" stroke="#2a160a" stroke-width="3" stroke-linejoin="round"/>
+        <circle cx="468" cy="224" r="3.5" fill="#14141a"/>
+      </g>
+    </svg>
+
+    <p class="trailer" id="trailer" aria-live="off">In a world with no grounding...</p>
+    <div class="cta-row">
+      <a class="btn" href="#rsvp">RSVP now</a>
+      <span class="rated">Rated F for Fried Rice</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="facts" aria-label="Court-certified facts">
+    <div class="fact"><b>0 days</b><span>of grounding remaining</span></div>
+    <div class="fact"><b>1+ onion volcano</b><span>expected, chef's discretion</span></div>
+    <div class="fact"><b>100%</b><span>chance somebody tries to catch a shrimp in their mouth</span></div>
+  </div>
+
+  <section aria-labelledby="where-h">
+    <p class="kicker">The details</p>
+    <h2 class="h2" id="where-h">One night. One grill. No parole.</h2>
+    <div class="tickets">
+      <div class="ticket">
+        <small>Where</small>
+        <strong>Mosaka Hibachi</strong>
+        <p>Marlborough &middot; <a href="https://www.google.com/maps/search/?api=1&query=Mosaka+Hibachi+Marlborough" target="_blank" rel="noopener">Open in Maps</a></p>
+      </div>
+      <div class="ticket">
+        <small>When</small>
+        <strong id="when-main">Date drops soon</strong>
+        <p id="when-sub">The host is finalizing the details. Check back.</p>
+        <div class="count" id="countdown" hidden></div>
+      </div>
+      <div class="ticket">
+        <small>Why</small>
+        <strong>Owen's return + birthday</strong>
+        <p>Release from grounding and another year older. Eat like it.</p>
+      </div>
+    </div>
+
+    <details class="host" id="host" hidden>
+      <summary>Host controls (only editors see this)</summary>
+      <form id="event-form" class="row">
+        <div class="field" style="margin:0"><label for="ev-date">Date</label><input type="date" id="ev-date"></div>
+        <div class="field" style="margin:0"><label for="ev-time">Time</label><input type="time" id="ev-time"></div>
+        <div class="field" style="margin:0; flex:1 1 220px"><label for="ev-note">Note for the group</label><input type="text" id="ev-note" maxlength="120" placeholder="Meet at the front, name is under Owen"></div>
+        <button class="btn ghost" type="submit" id="ev-save">Save details</button>
+      </form>
+    </details>
+  </section>
+
+  <section id="rsvp" aria-labelledby="rsvp-h">
+    <p class="kicker">Your move</p>
+    <h2 class="h2" id="rsvp-h">Are you in for The Return?</h2>
+    <div class="rsvp-grid">
+      <form class="card" id="rsvp-form" novalidate>
+        <p class="note" id="form-note" hidden></p>
+
+        <div class="field">
+          <label for="name">Your name</label>
+          <input type="text" id="name" maxlength="40" autocomplete="name" placeholder="Who dares to show up?" required>
+        </div>
+
+        <fieldset>
+          <legend class="lg">Verdict</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="status" value="in" checked><span>I'm there</span></label>
+            <label class="choice"><input type="radio" name="status" value="maybe"><span>Maybe</span></label>
+            <label class="choice"><input type="radio" name="status" value="no"><span>Can't (I hate fun)</span></label>
+          </div>
+        </fieldset>
+
+        <div id="extras">
+          <div class="field">
+            <label for="party">Headcount (you plus anyone you bring)</label>
+            <select id="party">
+              <option value="1">Just me</option><option value="2">2 people</option><option value="3">3 people</option>
+              <option value="4">4 people</option><option value="5">5 people</option><option value="6">6 people</option>
+            </select>
+          </div>
+
+          <fieldset class="meals">
+            <legend class="lg">Your hibachi weapon of choice</legend>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="meal" value="Chicken" checked><span>Chicken</span></label>
+              <label class="choice"><input type="radio" name="meal" value="Steak"><span>Steak</span></label>
+              <label class="choice"><input type="radio" name="meal" value="Shrimp"><span>Shrimp</span></label>
+              <label class="choice"><input type="radio" name="meal" value="Veggies"><span>Veggies</span></label>
+              <label class="choice"><input type="radio" name="meal" value="Whatever Owen's having"><span>Whatever Owen's having</span></label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="field">
+          <label for="msg">Welcome-back message for Owen</label>
+          <textarea id="msg" maxlength="200" placeholder="The prodigal son returns. Say something dramatic."></textarea>
+          <p class="hint">Shows on the wall below. 200 characters max.</p>
+        </div>
+
+        <div class="actions">
+          <button class="btn" type="submit" id="submit">Lock it in</button>
+          <button class="btn ghost" type="button" id="withdraw" hidden>Withdraw my RSVP</button>
+        </div>
+      </form>
+
+      <aside class="card totals" aria-label="Headcount">
+        <div>
+          <div class="kicker">Squad headcount</div>
+          <div class="big" id="total-in">0</div>
+          <p class="hint">people confirmed for the return</p>
+        </div>
+        <div class="tot-row"><span>Maybe</span><b id="total-maybe">0</b></div>
+        <div class="tot-row"><span>Can't make it</span><b id="total-no">0</b></div>
+        <div class="tot-row"><span>Replies so far</span><b id="total-replies">0</b></div>
+      </aside>
+    </div>
+  </section>
+
+  <section aria-labelledby="squad-h">
+    <p class="kicker">The wall</p>
+    <h2 class="h2" id="squad-h">The squad and the welcome-back wall</h2>
+    <p class="hint" id="squad-status" style="margin-bottom:12px">Loading the guest list...</p>
+    <ul class="squad" id="squad"></ul>
+  </section>
+</main>
+
+<footer class="wrap">
+  <b>Owen is back. Bring an appetite.</b><br>
+  Fried rice not guaranteed to survive the night.
+</footer>
+
+<script>
+(function () {
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  function el(tag, props) {
+    var e = document.createElement(tag);
+    props = props || {};
+    Object.keys(props).forEach(function (k) {
+      if (k === 'class') e.className = props[k];
+      else if (k === 'text') e.textContent = props[k];
+      else if (k.slice(0, 2) === 'on') e.addEventListener(k.slice(2), props[k]);
+      else e.setAttribute(k, props[k]);
+    });
+    for (var i = 2; i < arguments.length; i++) { var c = arguments[i]; if (c != null) e.append(c.nodeType ? c : document.createTextNode(c)); }
+    return e;
+  }
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // caution tape text
+  (function () {
+    var unit = 'NO LONGER GROUNDED ★ THE RETURN ★ OWEN’S BACK ★ ';
+    var t = $('#tape');
+    for (var i = 0; i < 2; i++) { t.append(el('span', { text: unit.repeat(6) })); }
+  })();
+
+  // rotating trailer lines
+  var lines = [
+    'In a world with no grounding...',
+    'One teenager. One chef. Zero curfew.',
+    'He was away for a while. Now he is hungry.',
+    'This time, justice is served sizzling.',
+    'The onion volcano has been warned.',
+    'Rated F for Fried Rice.'
+  ];
+  var li = 0, tr = $('#trailer');
+  if (!reduce) {
+    setInterval(function () {
+      tr.style.opacity = '0';
+      setTimeout(function () { li = (li + 1) % lines.length; tr.textContent = lines[li]; tr.style.opacity = '1'; }, 360);
+    }, 3600);
+  }
+
+  // toast + confetti
+  var toastTimer;
+  function toast(msg) {
+    var t = $('#toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.classList.remove('show'); }, 3800);
+  }
+  function confetti() {
+    if (reduce) return;
+    var c = $('#confetti'), ctx = c.getContext('2d');
+    c.width = innerWidth; c.height = innerHeight;
+    var cols = ['#ffc83d', '#ff5a1f', '#e0243a', '#fff3dd', '#3ddc84'];
+    var ps = [];
+    for (var i = 0; i < 150; i++) ps.push({ x: Math.random() * c.width, y: -20 - Math.random() * c.height * 0.5, vx: (Math.random() - 0.5) * 3, vy: 2 + Math.random() * 4, s: 6 + Math.random() * 8, r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.3, c: cols[(Math.random() * cols.length) | 0] });
+    var n = 0;
+    (function frame() {
+      ctx.clearRect(0, 0, c.width, c.height);
+      ps.forEach(function (p) { p.x += p.vx; p.y += p.vy; p.r += p.vr; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c; ctx.fillRect(-p.s / 2, -p.s / 2, p.s, p.s * 0.6); ctx.restore(); });
+      if (++n < 210) requestAnimationFrame(frame); else ctx.clearRect(0, 0, c.width, c.height);
+    })();
+  }
+
+  // state
+  var state = { rsvps: [], event: {}, loaded: false, docId: null, db: null, canWrite: false, canEdit: false, prefilled: false, saving: false };
+
+  // event details + countdown
+  function eventDate() {
+    var e = state.event || {};
+    if (!e.date) return null;
+    var d = new Date(e.date + 'T' + (e.time || '18:00') + ':00');
+    return isNaN(d.getTime()) ? null : d;
+  }
+  function renderEvent() {
+    var e = state.event || {}, d = eventDate();
+    if (d) {
+      $('#when-main').textContent = d.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+      var sub = e.time ? d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : 'Time to be announced';
+      if (e.note) sub += ' · ' + e.note;
+      $('#when-sub').textContent = sub;
+      $('#countdown').hidden = false;
+    } else {
+      $('#when-main').textContent = 'Date drops soon';
+      $('#when-sub').textContent = e.note || 'The host is finalizing the details. Check back.';
+      $('#countdown').hidden = true;
+    }
+    tick();
+  }
+  function tick() {
+    var d = eventDate(), c = $('#countdown');
+    if (!d) return;
+    var ms = d.getTime() - Date.now();
+    if (ms <= 0) { c.textContent = 'IT IS HAPPENING'; return; }
+    var s = Math.floor(ms / 1000), dd = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60), ss = s % 60;
+    c.textContent = 'T-MINUS ' + dd + 'D ' + h + 'H ' + m + 'M ' + ss + 'S';
+  }
+  setInterval(tick, 1000);
+
+  // squad
+  var LABEL = { in: 'In', maybe: 'Maybe', no: 'Out' };
+  function renderSquad() {
+    var list = state.rsvps.slice().sort(function (a, b) { return (b.updatedAt || 0) - (a.updatedAt || 0); });
+    var tin = 0, tmaybe = 0, tno = 0;
+    list.forEach(function (r) {
+      var n = Math.max(1, Number(r.party) || 1);
+      if (r.status === 'in') tin += n; else if (r.status === 'maybe') tmaybe += n; else tno += 1;
+    });
+    $('#total-in').textContent = tin;
+    $('#total-maybe').textContent = tmaybe;
+    $('#total-no').textContent = tno;
+    $('#total-replies').textContent = list.length;
+
+    var ul = $('#squad'); ul.textContent = '';
+    if (state.loaded) $('#squad-status').textContent = list.length ? list.length + (list.length === 1 ? ' reply' : ' replies') + ' so far. Newest first.' : '';
+    if (state.loaded && !list.length) {
+      ul.append(el('li', { class: 'empty', text: 'Nobody has RSVP’d yet. Be the first to welcome Owen back.' }));
+      return;
+    }
+    list.forEach(function (r) {
+      var st = r.status === 'in' || r.status === 'maybe' ? r.status : 'no';
+      var who = el('div', { class: 'who' });
+      var head = el('div', {}, el('strong', { text: r.name || 'Mystery guest' }));
+      if (st !== 'no' && Number(r.party) > 1) head.append(el('span', { class: 'chip', text: '+' + (Number(r.party) - 1) + ' more' }));
+      if (st !== 'no' && r.meal) head.append(el('span', { class: 'chip', text: r.meal }));
+      who.append(head);
+      if (r.message) who.append(el('q', { text: '“' + r.message + '”' }));
+      var li = el('li', { class: 'guest' }, el('span', { class: 'badge ' + st, text: LABEL[st] }), who);
+      if (state.canEdit && state.db) {
+        li.append(el('button', { class: 'x', type: 'button', 'aria-label': 'Remove ' + (r.name || 'this') + ' RSVP', text: 'Remove', onclick: function () {
+          state.db.doc('rsvps/' + r.id).delete().catch(function () { toast('Could not remove that one. Try again.'); });
+        } }));
+      }
+      ul.append(li);
+    });
+  }
+
+  // form
+  var form = $('#rsvp-form');
+  function status() { return (form.querySelector('input[name=status]:checked') || {}).value || 'in'; }
+  function syncExtras() { $('#extras').hidden = status() === 'no'; }
+  form.addEventListener('change', syncExtras);
+  function setNote(msg) { var n = $('#form-note'); n.textContent = msg || ''; n.hidden = !msg; }
+  function setFormEnabled(on) {
+    form.querySelectorAll('input, select, textarea, button').forEach(function (c) { c.disabled = !on; });
+  }
+  function prefill(mine) {
+    $('#name').value = mine.name || '';
+    var s = form.querySelector('input[name=status][value="' + (mine.status || 'in') + '"]'); if (s) s.checked = true;
+    $('#party').value = String(mine.party || 1);
+    if (mine.meal) { var ms = form.querySelectorAll('input[name=meal]'); ms.forEach(function (m) { m.checked = m.value === mine.meal; }); }
+    $('#msg').value = mine.message || '';
+    syncExtras();
+  }
+  function syncMine() {
+    var mine = state.rsvps.filter(function (r) { return r.id === state.docId; })[0];
+    $('#submit').textContent = mine ? 'Update my RSVP' : 'Lock it in';
+    $('#withdraw').hidden = !mine;
+    if (mine && !state.prefilled) { prefill(mine); state.prefilled = true; setNote('You are already on the list. Change anything and update.'); }
+    if (!mine && state.prefilled) { state.prefilled = false; setNote(''); }
+  }
+
+  var REPLIES = {
+    in: ['The legend expects you.', 'The onion volcano has been notified.', 'Locked in. Owen is already emotional.'],
+    maybe: ['A maybe? Owen will remember this.', 'The grill is keeping your seat warm. Barely.'],
+    no: ['Noted. The shrimp will be caught without you.', 'Owen forgives you. The group chat does not.']
+  };
+  function pick(a) { return a[(Math.random() * a.length) | 0]; }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!state.db || !state.canWrite || !state.docId || state.saving) return;
+    var name = $('#name').value.trim();
+    if (!name) { setNote('Put your name down. Owen needs to know who to thank.'); $('#name').focus(); return; }
+    var st = status();
+    var meal = form.querySelector('input[name=meal]:checked');
+    var data = {
+      name: name.slice(0, 40), status: st,
+      party: st === 'no' ? 0 : Number($('#party').value) || 1,
+      meal: st === 'no' ? '' : (meal ? meal.value : ''),
+      message: $('#msg').value.trim().slice(0, 200),
+      updatedAt: Date.now()
+    };
+    state.saving = true; $('#submit').disabled = true;
+    state.db.doc('rsvps/' + state.docId).set(data).then(function () {
+      state.prefilled = true; setNote('');
+      toast(pick(REPLIES[st]));
+      if (st === 'in') confetti();
+    }).catch(function () {
+      setNote('That did not save. You may need Contributor access from the host. Ask for it and try again.');
+    }).then(function () { state.saving = false; $('#submit').disabled = false; });
+  });
+  $('#withdraw').addEventListener('click', function () {
+    if (!state.db || !state.docId) return;
+    state.db.doc('rsvps/' + state.docId).delete().then(function () {
+      state.prefilled = false; form.reset(); syncExtras(); toast('RSVP withdrawn. Owen is pretending not to be hurt.');
+    }).catch(function () { setNote('Could not withdraw that. Try again.'); });
+  });
+
+  // host panel
+  $('#event-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!state.db) return;
+    var data = { date: $('#ev-date').value, time: $('#ev-time').value, note: $('#ev-note').value.trim().slice(0, 120) };
+    $('#ev-save').disabled = true;
+    state.db.doc('event/main').set(data).then(function () { toast('Details saved.'); }).catch(function () { toast('Could not save the details.'); }).then(function () { $('#ev-save').disabled = false; });
+  });
+
+  syncExtras();
+  renderEvent();
+  renderSquad();
+
+  // boot the shared store
+  function boot() {
+    if (!(window.claude && window.claude.use)) { unavailable(); return; }
+    Promise.all([window.claude.use('db'), window.claude.use('user')]).then(function (r) {
+      var db = r[0], user = r[1];
+      if (!db) { unavailable(); return; }
+      state.db = db;
+      var ids = user ? Promise.all([user.id(), user.can('data.write'), user.canEdit()]) : Promise.resolve([null, null, false]);
+      return ids.then(function (v) {
+        var uid = v[0], cw = v[1];
+        state.canEdit = !!v[2];
+        if (!uid) {
+          try { uid = localStorage.getItem('owen_rsvp_id'); if (!uid) { uid = 'g' + Math.random().toString(36).slice(2, 12); localStorage.setItem('owen_rsvp_id', uid); } } catch (e) { uid = 'g' + Math.random().toString(36).slice(2, 12); }
+        }
+        state.docId = uid;
+        state.canWrite = cw !== false;
+        if (!state.canWrite) { setNote('You can see the list, but this link is view-only. Ask the host for Contributor access so you can RSVP.'); setFormEnabled(false); }
+        $('#host').hidden = !state.canEdit;
+
+        var timer = setTimeout(function () { if (!state.loaded) $('#squad-status').textContent = 'The guest list is slow to load. It may be out of date.'; }, 10000);
+        db.collection('rsvps').onSnapshot(function (snap) {
+          clearTimeout(timer);
+          state.loaded = true;
+          state.rsvps = snap.docs.map(function (d) { var x = d.data() || {}; x.id = d.id; return x; });
+          syncMine(); renderSquad();
+        }, function () { clearTimeout(timer); $('#squad-status').textContent = 'The guest list is not reachable right now.'; });
+
+        db.doc('event/main').onSnapshot(function (s) {
+          state.event = s.exists ? (s.data() || {}) : {};
+          if (state.canEdit && !$('#ev-date').value) { $('#ev-date').value = state.event.date || ''; $('#ev-time').value = state.event.time || ''; $('#ev-note').value = state.event.note || ''; }
+          renderEvent();
+        }, function () {});
+      });
+    }).catch(unavailable);
+  }
+  function unavailable() {
+    $('#squad-status').textContent = 'Sign in to claude.ai to see the guest list.';
+    setNote('RSVPs need you to be signed in to claude.ai and have Contributor access from the host.');
+    setFormEnabled(false);
+  }
+  boot();
+})();
+</script>
+
+</body></html>
