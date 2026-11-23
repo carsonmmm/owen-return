@@ -1,11 +1,12 @@
 // Firebase web-app configuration.
-// Replace these placeholder values with the config from Firebase Console:
-// Project settings -> General -> Your apps -> SDK setup and configuration.
+// This client-side config is public by design. Firestore security rules
+// (firestore.rules), not secrecy of this file, protect guest data.
 window.FIREBASE_CONFIG = {
-  apiKey: "PASTE_API_KEY_HERE",
-  authDomain: "PASTE_PROJECT_ID_HERE.firebaseapp.com",
-  projectId: "PASTE_PROJECT_ID_HERE",
-  storageBucket: "PASTE_PROJECT_ID_HERE.appspot.com",
-  messagingSenderId: "PASTE_MESSAGING_SENDER_ID_HERE",
-  appId: "PASTE_APP_ID_HERE"
+  apiKey: "AIzaSyDyfLLcLchRKJc4vpLvvIqFrm1GsVDri1k",
+  authDomain: "owens-return.firebaseapp.com",
+  projectId: "owens-return",
+  storageBucket: "owens-return.firebasestorage.app",
+  messagingSenderId: "538799472806",
+  appId: "1:538799472806:web:dc8a18dc8f41a20f663467",
+  measurementId: "G-E8H864G3CZ"
 };
